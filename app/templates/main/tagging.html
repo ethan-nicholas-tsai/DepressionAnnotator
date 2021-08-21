@@ -1,0 +1,304 @@
+{% extends 'base.html' %}
+{% block title %}tagging{% endblock %}
+{% block body_content %}
+<div class="container-fluid" style="height: 100%; width: 100%">
+    <!--    container不占满视口-->
+    <div class="row" style="height: 20%;">
+        <div class="col-sm-6 col-md-6 col-lg-6">
+            <h2>用户 {{ user_id }} 推文</h2>
+            <p> 凌晨贴比例： {{ tweet_stats.late_proportion }}% ({{ tweet_stats.late_num }} / {{ tweet_stats.public_num
+                }})&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;转发贴比例: {{ tweet_stats.retweet_proportion }}% ({{ tweet_stats.retweet_num }} / {{ tweet_stats.public_num
+                }})</p>
+<!--            <p> 转发贴比例: {{ tweet_stats.retweet_proportion }}% ({{ tweet_stats.retweet_num }} / {{ tweet_stats.public_num }})</p>-->
+            <p> 私密贴比例： {{ tweet_stats.private_proportion }}% ({{ tweet_stats.private_num }} / {{ tweet_stats.total_num
+                }})</p>
+        </div>
+        <div class="col-sm-5 col-md-5 col-lg-5">
+            <h2>症状</h2>
+            <p>判断为抑郁的条件：<br>1. 满足<b>编号</b><span style="color:red"><b>第1条</b></span> <br>2. 满足<b>编号</b><span style="color:orange"><b>第2或第3条</b></span>中的一个，以及合计至少5个症状</p>
+            <!--            <p> 判断为抑郁的条件：<br>1. 满足第1条 <br>2. 满足第2或第3条中的一个，以及至少5个症状</p>-->
+            <!--            <div class="col-sm-1 col-md-1 col-lg-1" style="height: 100%;">-->
+<!--            <a class="btn btn-primary btn-sm" href="{{ url_for("main.rules") }}" target="_blank" id="diagnosis_rules">诊断规则详述</a><br>-->
+            <!--            </div>-->
+        </div>
+        <div class="col-sm-1 col-md-1 col-lg-1">
+            <a class="btn btn-primary btn-sm" href="{{ url_for('main.logout') }}">登出</a>
+            <a class="btn btn-primary btn-sm" href="{{ url_for("main.rules") }}" target="_blank" id="diagnosis_rules">诊断规则详述</a><br>
+<!--            <a class="btn btn-primary btn-sm" href="{{ url_for('main.logout') }}">登出</a>-->
+        </div>
+    </div>
+    <div class="row" style="height: 70%;">
+        <div class="col-sm-6 col-md-6 col-lg-6" style="overflow-y: scroll; height: 100%;">
+            <!--         div.class =  pre-scrollable-->
+            <table class="table table-hover table-striped">
+                <thead>
+                <th>id</th>
+                <th>链接</th>
+                <th>原创</th>
+                <th>时间</th>
+                <th>内容</th>
+                </thead>
+                <tbody>
+                {% for tweet in tweets %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td><a href="{{ tweet.tweet_url }}" target="_blank">点击</a></td>
+                    {% if tweet.is_origin %}
+                    <td>是</td>
+                    {% else %}
+                    <td>否</td>
+                    {% endif %}
+                    <td class="post-time">{{ tweet.post_time }}</td>
+                    <td class="tweet-content">{{ tweet.tweet_content }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-sm-5 col-md-5 col-lg-5" style="overflow-y: scroll; height: 100%;">
+            <!--         div.class =  pre-scrollable-->
+            <table class="table table-hover table-striped">
+                <thead>
+                <th>id</th>
+                <th>症状</th>
+                <th>类型</th>
+                <th>描述</th>
+                <th>T/F</th>
+                </thead>
+                <tbody>
+                <meta charset="UTF-8">
+                <!-- 人工判断操作 -->
+                <tr>
+                    <td id="doctor-id"> *</td>
+                    <td id="doctor-name">心理医生/心理健康公众号</td>
+                    <td><p style="color:deeppink" id="doctor-type"><b>点"用户主页"</b></p></td>
+                    <td id="doctor-description">直接点右侧的用户主页按钮，看看简历（用户名/公司/简介）</td>
+                    <td>
+                        <input type="checkbox" class="form-check-input" id="doctor" name="symptom">
+                    </td>
+                </tr>
+                <tr>
+                    <td id="unsure-id"> *</td>
+                    <td id="unsure-name">存疑</td>
+                    <td><p style="color:lawngreen" id="unsure-type"><b>手动</b></p></td>
+                    <td id="unsure-description">不确定是不是抑郁症，比如失恋，亲人逝世等，但程序自动判断为抑郁</td>
+                    <td>
+                        <input type="checkbox" class="form-check-input" id="unsure" name="symptom">
+                    </td>
+                </tr>
+                <tr>
+                    <td id="clinical_sure-id"> *</td>
+                    <td id="clinical_sure-name">医学确定</td>
+                    <td><p style="color:lawngreen" id="clinical_sure-type"><b>手动</b></p></td>
+                    <td id="clinical_sure-description">通过其他医学判别标准确定是抑郁症</td>
+                    <td>
+                        <input type="checkbox" class="form-check-input" id="clinical_sure" name="symptom">
+                    </td>
+                </tr>
+                <tr>
+                    <td id="none_clinical_sure-id"> *</td>
+                    <td id="none_clinical_sure-name">非医学自述抑郁</td>
+                    <td><p style="color:lawngreen" id="none_clinical_sure-type"><b>手动</b></p></td>
+                    <td id="none_clinical_sure-description">自查是抑郁症，但不是医院确证</td>
+                    <td>
+                        <input type="checkbox" class="form-check-input" id="none_clinical_sure" name="symptom">
+                    </td>
+                </tr>
+                <tr>
+                    <td id="smile-id"> *</td>
+                    <td id="smile-name">微笑型</td>
+                    <td><p style="color:lawngreen" id="smile-type"><b>手动</b></p></td>
+                    <td id="smile-description">总是假装积极，笑脸对人</td>
+                    <td>
+                        <input type="checkbox" class="form-check-input" id="smile" name="symptom">
+                    </td>
+                </tr>
+                <tr>
+                    <td id="anxiety-id"> *</td>
+                    <td id="anxiety-name">焦虑型</td>
+                    <td><p style="color:lawngreen" id="anxiety-type"><b>手动</b></p></td>
+                    <td id="anxiety-description">即患有焦虑症，又患有抑郁症。如遇双相情感障碍、躁郁症也算此类</td>
+                    <td>
+                        <input type="checkbox" class="form-check-input" id="anxiety" name="symptom">
+                    </td>
+                </tr>
+                <tr>
+                    <td id="postpartum-id"> *</td>
+                    <td id="postpartum-name">产后型</td>
+                    <td><p style="color:lawngreen" id="postpartum-type"><b>手动</b></p></td>
+                    <td id="postpartum-description">产后抑郁症或孕期抑郁</td>
+                    <td>
+                        <input type="checkbox" class="form-check-input" id="postpartum" name="symptom">
+                    </td>
+                </tr>
+                {% for symptom in symptoms %}
+                <tr>
+                    <td id="{{ symptom.english_name }}-id">{{ loop.index }}</td>
+                    <td id="{{ symptom.english_name }}-name">{{ symptom.chinese_name }}</td>
+                    {% if symptom.type == 3 %}
+                    <td><p style="color:red" id="{{ symptom.english_name }}-type"><b>决定</b></p></td>
+                    {% elif symptom.type == 2 %}
+                    <td><p style="color:orange" id="{{ symptom.english_name }}-type"><b>核心</b></p></td>
+                    {% elif symptom.type == 1 %}
+                    <td><p style="color:black" id="{{ symptom.english_name }}-type"><b>DSM-5</b></p></td>
+                    {% else %}
+                    <td><p style="color:black" id="{{ symptom.english_name }}-type">非DSM-5</p></td>
+                    {% endif %}
+                    <td id="{{ symptom.english_name }}-description">{{ symptom.description }}</td>
+                    <td>
+                        <input type="checkbox" class="form-check-input" id="{{ symptom.english_name }}" name="symptom">
+                        {% for category, message in get_flashed_messages(with_categories=True) %}
+                        <div class="alert alert-{{ category }}">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            {{ message }}
+                        </div>
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <button class="btn btn-primary" type="submit" id="tag">保存</button>
+        </div>
+        <div class="col-sm-1 col-md-1 col-lg-1" style="height: 100%;">
+            <a class="btn btn-primary btn-sm" href="{{ user_link }}" target="_blank" id="user_link">进入用户主页</a>
+        </div>
+    </div>
+    <div class="row" style="height: 10%;">
+        <div class="col-sm-6 col-md-6 col-lg-6">
+            <h3>本轮已打标 {{ stats.done_cur }}，还剩 {{ stats.todo_cur }}，已持续工作{{ stats.work_time }}。至今您共打标 {{ stats.done_total
+                }}</h3>
+        </div>
+        <div class="col-sm-5 col-md-5 col-lg-5">
+            <p class="bg-info" id="symptom-summary"></p>
+            <p id="result">
+                决定： <span id="res-determine" style="color:red">0</span>&nbsp;&nbsp;
+                核心： <span id="res-core" style="color:orange">0</span>&nbsp;&nbsp;
+                其他： <span id="res-other" style="color:black">0</span><br>
+                自动判别结果： <span id="res-judge">正常</span>
+            </p>
+        </div>
+        <div class="col-sm-1 col-md-1 col-lg-1">
+            <a class="btn btn-primary btn-sm" href="{{ url_for('main.next_user') }}" id="next_page"
+               style="display:none;">下一个</a>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        // $('.alert').fadeOut(1500);  // 让flash自动消失
+        // 将字符串转化为 html 标签，使得 mark 标签能够起作用
+        $(".tweet-content").each(function () {
+            $(this).html($(this).text());
+        });
+        $(".post-time").each(function () {
+            $(this).html($(this).text());
+        });
+        // 绑定单选框事件
+        $('input[name=symptom]').each(function () {
+            $(this).click(function () {
+                let _id = $(this).attr('id');
+                let notify_id = _id + "-notify";
+                let _style = $("#" + _id + "-type").attr("style");
+                if ($(this).attr('checked')) {
+                    $(this).removeAttr('checked');
+                    // instant notify
+                    if (_style.indexOf("red") >= 0){
+                        let selector = $("#res-determine");
+                        selector.text(selector.text() * 1 - 1);
+                    } else if (_style.indexOf("orange") >= 0){
+                        let selector = $("#res-core");
+                        selector.text(selector.text() * 1 - 1);
+                    } else if (_style.indexOf("black") >= 0){
+                        let selector = $("#res-other");
+                        selector.text(selector.text() * 1 - 1);
+                    }
+                    $("#" + notify_id).remove();
+                } else {
+                    $(this).attr('checked', true);
+                    // instant notify
+                    if (_style.indexOf("red") >= 0){
+                        let selector = $("#res-determine");
+                        selector.text(selector.text() * 1 + 1);
+                    } else if (_style.indexOf("orange") >= 0){
+                        let selector = $("#res-core");
+                        selector.text(selector.text() * 1 + 1);
+                    } else if (_style.indexOf("black") >= 0){
+                        let selector = $("#res-other");
+                        selector.text(selector.text() * 1 + 1);
+                    }
+                    $("#symptom-summary").append(
+                        $('<span style=' + _style +' id=' + notify_id + '>' + $("#"+_id+"-id").text() + $("#"+_id+"-name").text() + ', </span>')
+                    );
+                }
+                // judge
+                let judge_selector = $("#res-judge");
+                if ($("#res-determine").text() * 1 === 1){
+                    judge_selector.html($('<span style="color: red"><b>抑郁</b></span>'));
+                }
+                else{
+                    let core_num = $("#res-core").text() * 1;
+                    let other_num = $("#res-other").text() * 1;
+                    if (core_num > 0 && core_num + other_num >= 5) {
+                        judge_selector.html($('<span style="color: red"><b>抑郁</b></span>'));
+                    } else {
+                        judge_selector.html('正常');
+                    }
+                }
+            })
+        });
+        // 定义不在symptom中的名字
+        let manual_name = ["doctor", "unsure", "clinical_sure", "none_clinical_sure", "smile", "anxiety", "postpartum"];
+        // 点击保存后的动作
+        $("#tag").click(function () {
+            let symptoms = {};
+            $('input[name=symptom]').each(function () {
+                if (!manual_name.includes($(this).attr('id'))) {
+                    symptoms[$(this).attr('id')] = !!$(this).attr('checked');
+                }
+            })
+            console.log(symptoms);
+            // 获取人工判断结果
+            let manual_judges = {};
+            manual_judges["doctor"] = !!$("input#doctor").attr('checked');
+            manual_judges["unsure"] = !!$("input#unsure").attr('checked');
+            manual_judges["none_clinical_sure"] = !!$("input#none_clinical_sure").attr('checked');
+            manual_judges["clinical_sure"] = !!$("input#clinical_sure").attr('checked');
+            manual_judges["smile"] = !!$("input#smile").attr('checked');
+            manual_judges["anxiety"] = !!$("input#anxiety").attr('checked');
+            manual_judges["postpartum"] = !!$("input#postpartum").attr('checked');
+            console.log(manual_judges);
+            // 获取user_id
+            let user_id = $("#user_link").attr("href").split("/").pop().split('?')[0];
+            console.log(user_id);
+            let post_data = {
+                "user_id": user_id,
+                "symptoms": symptoms,
+                "self_reported": !!$('input#self_reported').attr('checked'),
+                "manual_judges": manual_judges
+            };
+            $.ajax({
+                url: '{{ url_for("main.tag") }}',
+                type: 'post',
+                contentType: "application/json;charset=utf-8",
+                data: JSON.stringify((post_data)), // 一定要加JSON.stringify，传递的一定是二进制而不是对象！！
+                dataType: "json",
+                success: function (res) {
+                    console.log(res)
+                    res = res['data'];
+                    $("#symptom-summary").html("症状： " + res['symptom_summary']); // 显示打标总结
+                    if (res['result'] === '正常') {
+                        $("#result").removeClass();
+                        $("#result").addClass('bg-success');
+                    } else {
+                        $("#result").removeClass();
+                        $("#result").addClass('bg-danger');
+                    }
+                    $("#result").html("判定：" + res['result']);   // 显示系统判别结果
+                }
+            })
+            $("#next_page").show()
+        })
+    });
+</script>
+{% endblock %}

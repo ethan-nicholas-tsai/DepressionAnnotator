@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+
+{% block body_content %}
+<h1>恭喜你完成所有标注!</h1>
+<h1>您已累计标注{{ stats.done_total }}，本轮标注{{ stats.done_cur }}，累计工作{{ stats.work_time }} </h1>
+<a class="btn btn-primary btn-sm" href="{{ url_for('ops.restart') }}">重启</a>
+{% endblock %}

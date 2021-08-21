@@ -1,0 +1,208 @@
+.entities {
+    line-height: 2; 
+}
+
+[data-entity] {
+    padding: 0.25em 0.35em;
+    margin: 0px 0.25em;
+    line-height: 1;
+    display: inline-block;
+    border-radius: 0.25em;
+    border: 1px solid; 
+}
+
+[data-entity]::after {
+    box-sizing: border-box;
+    content: attr(data-entity);
+    font-size: 0.6em;
+    line-height: 1;
+    padding: 0.35em;
+    border-radius: 0.35em;
+    text-transform: uppercase;
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0px 0px 0.1rem 0.5rem; 
+}
+/* int */
+[data-entity][data-entity="2"] {
+    background: rgba(166, 226, 45, 0.2);
+    border-color: rgb(166, 226, 45); 
+}
+
+[data-entity][data-entity="2"]::after {
+    background: rgb(166, 226, 45); 
+}
+/* ple */
+[data-entity][data-entity="3"] {
+    background: rgba(224, 0, 132, 0.2);
+    border-color: rgb(224, 0, 132); 
+}
+
+[data-entity][data-entity="3"]::after {
+    background: rgb(224, 0, 132); 
+}
+/* ene */
+[data-entity][data-entity="4"] {
+    background: rgba(224, 209, 0, 0.2);
+    border-color: rgb(224, 153, 0); 
+}
+
+[data-entity][data-entity="4"]::after {
+    background: rgb(224, 153, 0); 
+}
+/* sad */
+[data-entity][data-entity="5"] {
+    background: rgba(67, 198, 252, 0.2);
+    border-color: rgb(67, 198, 252); 
+}
+
+[data-entity][data-entity="5"]::after {
+    background: rgb(67, 198, 252); 
+}
+/* sym */
+[data-entity][data-entity="6"] {
+    background: rgba(230, 210, 34, 0.2);
+    border-color: rgb(252, 135, 67); 
+}
+
+[data-entity][data-entity="6"]::after {
+    background: rgb(252, 135, 67); 
+}
+/* con */
+[data-entity][data-entity="7"] {
+    background: rgba(67, 198, 252, 0.2);
+    border-color: rgb(67, 198, 252); 
+}
+
+[data-entity][data-entity="7"]::after {
+    background: rgb(67, 198, 252); 
+}
+/* pan */
+/* background: rgba(249, 253, 32, 0.2) */
+[data-entity][data-entity="8"] {
+    background: rgba(249, 253, 32, 0.959);
+    border-color: rgb(253, 151, 32); 
+}
+
+[data-entity][data-entity="8"]::after {
+    background: rgb(253, 151, 32); 
+}
+/* app */
+[data-entity][data-entity="9"] {
+    background: rgba(253, 151, 32, 0.2);
+    border-color: rgb(253, 151, 32); 
+}
+
+[data-entity][data-entity="9"]::after {
+    background: rgb(253, 151, 32); 
+}
+/* ins */
+[data-entity][data-entity="10"] {
+    background: rgba(142, 125, 255, 0.2);
+    border-color: rgb(142, 125, 255); 
+}
+
+[data-entity][data-entity="10"]::after {
+    background: rgb(142, 125, 255); 
+}
+/* anx */
+[data-entity][data-entity="11"] {
+    background: rgba(255, 204, 0, 0.2);
+    border-color: rgb(255, 204, 0); 
+}
+
+[data-entity][data-entity="11"]::after {
+    background: rgb(255, 204, 0); 
+}
+
+/* bla */
+[data-entity][data-entity="12"] {
+    background: rgba(255, 204, 0, 0.2);
+    border-color: rgb(255, 204, 0); 
+}
+
+[data-entity][data-entity="12"]::after {
+    background: rgb(255, 204, 0); 
+}
+
+/* ret */
+[data-entity][data-entity="13"] {
+    background: rgba(255, 204, 0, 0.2);
+    border-color: rgb(255, 204, 0); 
+}
+
+[data-entity][data-entity="13"]::after {
+    background: rgb(255, 204, 0); 
+}
+
+/* sui */
+[data-entity][data-entity="14"] {
+    background: rgba(47, 187, 171, 0.2);
+    border-color: rgb(47, 187, 171); 
+}
+
+[data-entity][data-entity="14"]::after {
+    background: rgb(47, 187, 171); 
+}
+
+/* wei */
+[data-entity][data-entity="15"] {
+    background: rgba(47, 187, 171, 0.2);
+    border-color: rgb(47, 187, 171); 
+}
+
+[data-entity][data-entity="15"]::after {
+    background: rgb(47, 187, 171); 
+}
+
+/* agi */
+[data-entity][data-entity="16"] {
+    background: rgba(153, 153, 153, 0.2);
+    border-color: rgb(153, 153, 153); 
+}
+
+[data-entity][data-entity="16"]::after {
+    background: rgb(153, 153, 153); 
+}
+
+/* hyp */
+[data-entity][data-entity="17"] {
+    background: rgba(153, 153, 153, 0.2);
+    border-color: rgb(153, 153, 153); 
+}
+
+[data-entity][data-entity="17"]::after {
+    background: rgb(153, 153, 153); 
+}
+
+[data-entity][data-entity="18"] {
+    background: rgba(153, 153, 153, 0.2);
+    border-color: rgb(153, 153, 153); 
+}
+
+[data-entity][data-entity="18"]::after {
+    background: rgb(153, 153, 153); 
+}
+
+[data-entity][data-entity="19"] {
+    background: rgba(153, 153, 153, 0.2);
+    border-color: rgb(153, 153, 153); 
+}
+
+[data-entity][data-entity="19"]::after {
+    background: rgb(153, 153, 153); 
+}
+
+[data-entity][data-entity="20"] {
+    background: rgba(153, 153, 153, 0.2);
+    border-color: rgb(153, 153, 153); 
+}
+
+[data-entity][data-entity="20"]::after {
+    background: rgb(153, 153, 153); 
+}
+
+body {
+   padding: 25px 50px;
+   font: 18px Helvetica, Arial, sans-serif;
+}
