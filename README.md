@@ -1,4 +1,7 @@
 # Simple Annotator For Depression
+
+A flask-based labeling system for depression that supports multi-person labeling.
+
 ## Environment
 
 Ubuntu 18.04
@@ -41,6 +44,12 @@ pip install -r requirements.txt
 ![none-depressed](./figure/none-depressed.png)
 
 ![depressed](./figure/depressed-1.png)
+
+## Instructions
+
+- The tagger screen the user tweets listed on the left column, and checks the corresponding depressive symptoms on the right column
+- The system will automatically judges on whether the user has depression or not in real time and show the results at the bottom of the right column.
+- Once finished, click "save" at the bottom of the right column, and the system will tag the sample automatically.
 
 ## Labeling Criteria
 
